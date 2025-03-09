@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${candidate.firstname+' '+candidate.lastname}">Title</title>
+
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link th:href="@{/lib/animate/animate.min.css}" th:rel="stylesheet">
+    <link th:href="@{/lib/owlcarousel/assets/owl.carousel.min.css}" th:rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link th:href="@{/css/bootstrap.min.css}" th:rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link th:href="@{/css/profile-style.css}" th:rel="stylesheet">
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+</head>
+<body>
+
+<div sec:authorize="isAuthenticated()">
+    <div th:replace="~{fragments/user-navbar :: user-navbar}"></div>
+</div>
+<div sec:authorize="!isAuthenticated()">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+</div>
+
+<hr>
+<div class="container bootstrap snippet">
+    <div class="row">
+        <div class="col-sm-10"><h1 th:text="${candidate.firstname+' '+candidate.lastname}">User name</h1></div>
+        <div class="col-sm-2"><a href="/" class="pull-right"><img title="profile image" class="img-circle img-responsive" src="http://www.gravatar.com/avatar/28fd20ccec6865e2d5f0e1f4446eb7bf?s=100"></a></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3"><!--left col-->
+
+
+            <div class="text-center">
+                <img th:src="@{${candidate?.photosImagePath}}" class="avatar img-circle img-thumbnail" alt="avatar">
+            </div></hr><br>
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Website <i class="fa fa-link fa-1x"></i></div>
+                <div class="panel-body"><a href="http://bootnipets.com">bootnipets.com</a></div>
+            </div>
+
+
+            <ul class="list-group">
+                <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Social Media</div>
+                <div class="panel-body">
+                    <i class="fa fa-facebook fa-2x"></i> <i class="fa fa-github fa-2x"></i> <i class="fa fa-twitter fa-2x"></i> <i class="fa fa-pinterest fa-2x"></i> <i class="fa fa-google-plus fa-2x"></i>
+                </div>
+            </div>
+
+        </div><!--/col-3-->
+        <div class="col-sm-9">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home">General</a></li>
+            </ul>
+
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="home">
+                    <hr>
+                    <form class="form" th:action="@{/candidate/addNew}" enctype="multipart/form-data" method="post" th:object="${candidate}" id="registrationForm">
+
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="email"><h4>Email</h4></label>
+                                <input type="email" class="form-control" name="email" id="email" th:field="*{users.email}" placeholder="Email" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <input type="hidden" class="form-control" name="candidateID" field="*{candidateID}" placeholder="CandidateID">
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="first_name"><h4>First name</h4></label>
+                                <input type="text" class="form-control" name="firstname" id="first_name" th:field="*{firstname}" placeholder="First name" title="enter your first name if any.">
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="last_name"><h4>Last name</h4></label>
+                                <input type="text" class="form-control" name="lastname" id="last_name" th:field="*{lastname}" placeholder="last name" title="enter your last name if any.">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="city"><h4>City</h4></label>
+                                <input name="city" id="city" th:field="*{city}" class="form-control" placeholder="City" type="text">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                <label for="state"><h4>State</h4></label>
+
+                                <input name="state" id="state" th:field="*{state}" class="form-control" placeholder="State" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="country"><h4>Country</h4></label>
+
+                                <input name="country" id="country" th:field="*{country}" class="form-control" placeholder="Country" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="workAuthorization"><h4>Work Authorization</h4></label>
+                                <select id="workAuthorization" th:field="*{workAuthorization}" class="form-control">
+                                    <option value="Work Authorization" selected>Work Authorization</option>
+                                    <option value="EU Citizen">EU Citizen</option>
+                                    <option value="CH/NOR Citizen">CH/NOR Citizen</option>
+                                    <option value="US Citizen">US Citizen</option>
+                                    <option value="Canadian Citizen">Canadian Citizen</option>
+                                    <option value="Visa Single Residence & Work Permit">Visa Single Residence & Work Permit</option>
+                                </select>
+                            </div>
+
+                            <div class="col-xs-6">
+                                <label for="employmentType"><h4>Employment Type</h4></label>
+                                <select id="employmentType" th:field="*{employmentType}" class="form-control">
+                                    <option value="Job type" selected>Select Job type</option>
+                                    <option value="Full-Time">Full-Time</option>
+                                    <option value="Part-Time">Part-Time</option>
+                                    <option value="Remote">Remote</option>
+                                </select>
+                            </div>&nbsp;&nbsp;<hr/>
+
+                            <h2 class="mb-3 text-success">Add Skill</h2>
+                            <div class="parent" th:each="skills, iterStat : *{skills}">
+
+                                <div id="skill-repeat">
+                                    <div class="row">
+                                        <div class="col-md-4 pr-1">
+
+                                            <input type="text" th:field="*{skills[__${iterStat.index}__].skillID}" hidden />
+                                            <input type="text" placeholder="Skill name" class="form-control" th:field="*{skills[__${iterStat.index}__].name}" />
+                                        </div>
+
+                                        <div class="col-md-4 px-1">
+                                            <input type="text" placeholder="Years Of Experience" class="form-control" th:field="*{skills[__${iterStat.index}__].yearsOfExperience}" />
+
+                                        </div>
+
+                                        <div class="form-group col-md-4 pl-1">
+                                            <select required class="form-control" th:field="*{skills[__${iterStat.index}__].experienceLevel}">
+                                                <option value="Experience Level" selected>Experience Level</option>
+                                                <option value="Beginner">Beginner</option>
+                                                <option value="Intermediate">Intermediate</option>
+                                                <option value="Advance">Advance</option>
+
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row gutters" sec:authorize="hasAuthority('Candidate')">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <div class="text-left mt-2">
+                                        <button type="button" class="btn btn-success btn-outline-secondary" id="addSkill">
+                                            Add Skill
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-5 me-5" >
+                                    <label class="heading_font font_sub_heading_color">
+                                        Profile Photo</label
+                                    >
+                                    <input
+                                            type="file"
+                                            name="image"
+                                            class="form-control text-center center-block file-upload"
+                                            accept="image/png, image/jpeg, image/jpg"
+                                    />
+                                    <input type="text" name="profilePhoto" th:field="*{profilePhoto}" class="form-control"
+                                           hidden/>
+
+                                </div>
+                                <div class="col-md-5 me-5">
+                                    <label class="heading_font font_sub_heading_color">
+                                        Resume</label
+                                    >
+                                    <input
+                                            type="file"
+                                            name="pdf"
+                                            class="form-control"
+                                            required="true"
+                                            accept="application/pdf"
+                                    />
+                                    <input type="text" name="resume" th:field="*{resume}" class="form-control" hidden/>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <br>
+                                <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                                <button class="btn btn-lg btn-success" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <hr>
+
+                </div><!--/tab-pane-->
+
+            </div><!--/tab-pane-->
+        </div><!--/tab-content-->
+
+    </div><!--/col-9-->
+</div><!--/row-->
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/lib/wow/wow.min.js}"></script>
+<script th:src="@{/lib/easing/easing.min.js}"></script>
+<script th:src="@{/lib/waypoints/waypoints.min.js}"></script>
+<script th:src="@{/lib/owlcarousel/owl.carousel.min.js}"></script>
+
+<!-- Template Javascript -->
+<script th:src="@{/js/main.js}"></script>
+
+<script>
+     var counter = 0;
+     $(document).on("click", "#addSkill", function (e) {
+       e.preventDefault();
+       counter++;
+        var newRow = jQuery("<div id='skill-repeat'><div class='row'>"+
+                   "    <div class='col-md-4 pr-1'>"+
+                   "     <input"+
+                   "        hidden type='text'"+
+                   "        class='form-control' "+
+                   "        name='skills["+counter+"].skillID'"+
+                   "      />"+
+                   "      <input"+
+                   "        placeholder='Skill Name'"+
+                   "        type='text'"+
+                   "        class='form-control'"+
+                   "        name='skills["+counter+"].name'"+
+                   "      />"+
+                   "    </div>"+
+                   "    <div class='col-md-4 px-1'>"+
+                   "      <input"+
+                   "        placeholder='Years of Experience'"+
+                   "        type='text'"+
+                   "        class='form-control'"+
+                   "        name='skills["+counter+"].yearsOfExperience'"+
+                   "      />"+
+                   "    </div>"+
+                   "    <div class='form-group col-md-4 pl-1'>"+
+                   "      <select"+
+                   "        required"+
+                   "        class='form-control'"+
+                   "        name='skills["+counter+"].experienceLevel'"+
+                   "      >"+
+                   "        <option selected>Experience Level</option>"+
+                   "        <option value='Beginner'>Beginner</option>"+
+                   "        <option value='Intermediate'>Intermediate</option>"+
+                   "        <option value='Advance'>Advance</option>"+
+                   "      </select>"+
+                   "    </div>"+
+                   "  </div>"+
+                   "</div>");
+        console.log(newRow);
+       $('#skill-repeat')
+         .parent('div.parent')
+         .append(newRow);
+
+     });
+
+</script>
+
+<script>
+        $(document).ready(function() {
+
+        var readURL = function(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.avatar').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+        $(".file-upload").on('change', function(){
+            readURL(this);
+        });
+    });
+
+    </script>
+
+</body>
+</html>

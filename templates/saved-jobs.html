@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Saved Jobs</title>
+
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Favicon -->
+  <link href="img/favicon.ico" rel="icon">
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Icon Font Stylesheet -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+
+  <!-- Libraries Stylesheet -->
+  <link th:href="@{/lib/animate/animate.min.css}" th:rel="stylesheet">
+  <link th:href="@{/lib/owlcarousel/assets/owl.carousel.min.css}" th:rel="stylesheet">
+
+  <!-- Customized Bootstrap Stylesheet -->
+  <link th:href="@{/css/bootstrap.min.css}" th:rel="stylesheet">
+
+  <!-- Template Stylesheet -->
+  <link th:href="@{/css/style.css}" th:rel="stylesheet">
+
+    <link th:href="@{/css/custom-style.css}" th:rel="stylesheet">
+
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+        <a href="/" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
+            <h1 class="m-0 text-primary">JobEntry</h1>
+        </a>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0">
+                <a href="/" class="nav-item nav-link active">Home</a>
+                <a sec:authorize="hasAuthority('Candidate')" th:href="@{/dashboard/}" class="nav-item nav-link">
+                    <i class="fas fa-search"></i>Search Jobs</a>
+
+                <a sec:authorize="hasAuthority('Candidate')" th:href="@{/saved-jobs/}" class="nav-item nav-link">
+                    <i class="fa-solid fa-eye"></i>View Saved Jobs</a>
+
+                <a sec:authorize="hasAuthority('Candidate')" th:href="@{/candidate/}" class="nav-item nav-link">
+                    <i class="fa-solid fa-pencil"></i>Edit Profile</a>
+
+            </div>
+
+        </div>
+        <a th:href="@{/logout}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Logout<i class="fa fa-arrow-left ms-3"></i></a>
+    </nav>
+
+    <section class="section">
+        <div class="sidenav px-5">
+            <div sec:authorize="hasAuthority('Candidate')">
+                <hr/>
+
+            </div>
+        </div>
+
+        <article>
+
+            <div class="box">
+                <h1 class="primary-title">Saved Jobs</h1>
+            </div>
+
+            <div class="box mt-3">
+                <label class="large-label px-3 mb-3">Results</label>
+                <th:block th:each="job:${jobList}">
+                    <a th:href="@{/jobInfo/{id}(id=${job.jobsID})}"
+                       style=" text-decoration:none; color:black;">
+                        <div onclick="window.location=/jobInfo/{id}(id=${job.jobsID})" class="job-row">
+                            <div class="row ">
+                                <div class="col-md-4">
+                                    <label class="job-title text-left">
+                                        [[${job.jobTitle}]]
+                                        <span class="title-span" sec:authorize="hasAuthority('Recruiter')"
+                                              th:text="'('+ @{${job.totalCandidates}}+' Candidates Applied)'">
+                                            (xx candidates applied)
+                                        </span>
+                                        <span class="title-span" sec:authorize="hasAuthority('Candidate')"
+                                              th:if="${job.isActive == true}">(Applied)</span>
+
+                                    </label>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <label th:text="${job.location}">
+                                        City State</label>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <label th:text="@{${job.company}}">Recruiter Company Name</label>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </th:block>
+            </div>
+
+        </article>
+
+
+    </section>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/lib/wow/wow.min.js}"></script>
+    <script th:src="@{/lib/easing/easing.min.js}"></script>
+    <script th:src="@{/lib/waypoints/waypoints.min.js}"></script>
+    <script th:src="@{/lib/owlcarousel/owl.carousel.min.js}"></script>
+
+    <!-- Template Javascript -->
+    <script th:src="@{/js/main.js}"></script>
+
+    <script>
+
+    $('#job').change(function() {
+      $('#hidJob').val($(this).val());
+    });
+    $('#loc').change(function() {
+      $('#hidLoc').val($(this).val());
+    });
+</script>
+</body>
+</html>

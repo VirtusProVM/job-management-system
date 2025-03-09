@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Post New Job</title>
+
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Favicon -->
+  <link href="img/favicon.ico" rel="icon">
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Icon Font Stylesheet -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+
+  <!-- Libraries Stylesheet -->
+  <link th:href="@{/lib/animate/animate.min.css}" th:rel="stylesheet">
+  <link th:href="@{/lib/owlcarousel/assets/owl.carousel.min.css}" th:rel="stylesheet">
+
+  <!-- Customized Bootstrap Stylesheet -->
+  <link th:href="@{/css/bootstrap.min.css}" th:rel="stylesheet">
+
+  <!-- Template Stylesheet -->
+  <link th:href="@{/css/style.css}" th:rel="stylesheet">
+</head>
+<body>
+
+<div sec:authorize="isAuthenticated()">
+  <div th:replace="~{fragments/user-navbar :: user-navbar}"></div>
+</div>
+<div sec:authorize="!isAuthenticated()">
+  <div th:replace="~{fragments/navbar :: navbar}"></div>
+</div><br />
+
+  <div class="">
+    <h4 class="mb-4">Create New Job</h4>
+    <form th:action="@{/dashboard/addNewJob}" th:object="${job}" method="POST">
+      <div class="row g-3">
+        <input hidden type="text" th:field="*{jobsID}" class="form-control" />
+        <input hidden type="text" th:field="*{category.categoryID}" class="form-control" />
+
+        <div class="col-12 col-sm-6">
+          <select th:field="*{jobType}" class="form-control">
+            <option value="">Select Job type</option>
+            <option value="Full-Time">Full-Time</option>
+            <option value="Part-Time">Part-Time</option>
+            <option value="Remote">Remote</option>
+          </select>
+        </div>
+
+        <div class="col-12 col-sm-6">
+          <select name="category" th:field="*{category.categoryName}" class="form-select border-0">
+            <option value="Select Category" disabled >Select Category</option>
+            <option th:each="category:${categories}" th:value="${category.categoryName}" th:text="${category.categoryName}"></option>
+
+          </select>
+        </div>
+
+        <div class="col-12 col-sm-6">
+          <input type="text" th:field="*{jobTitle}" class="form-control" placeholder="Job Title">
+        </div>
+        <div class="col-12 col-sm-6">
+          <input type="text" th:field="*{location}" class="form-control" placeholder="Job Location">
+        </div>
+        <div class="col-12 col-sm-6">
+          <input type="text" th:field="*{company}" class="form-control" placeholder="Company Name">
+        </div>
+        <div class="col-12 col-sm-6">
+          <input type="text" th:field="*{salary}" class="form-control" placeholder="Salary">
+        </div>
+
+        <div class="col-12">
+          <textarea class="form-control" th:field="*{jobDescription}" rows="10" placeholder="Job Decription"></textarea>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-primary w-100" type="submit">Create New Job</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script th:src="@{/lib/wow/wow.min.js}"></script>
+  <script th:src="@{/lib/easing/easing.min.js}"></script>
+  <script th:src="@{/lib/waypoints/waypoints.min.js}"></script>
+  <script th:src="@{/lib/owlcarousel/owl.carousel.min.js}"></script>
+
+  <!-- Template Javascript -->
+  <script th:src="@{/js/main.js}"></script>
+</body>
+</html>
