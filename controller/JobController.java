@@ -234,7 +234,6 @@ public class JobController {
     public String updateJob(@PathVariable("id") int id, Model model, @ModelAttribute("job") Jobs job, BindingResult result) {
 
         Category category = job.getCategory();
-        System.out.println("Category: " + category.getCategoryName());
 
         if(category != null) {
             job.setCategory(category);
